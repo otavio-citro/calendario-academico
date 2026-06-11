@@ -1,0 +1,71 @@
+Sistema de Calendário Acadêmico
+Descrição resumida:
+Nós formamos aprendizes em meio período na empresa e meio período no Senai, totalizando 8 horas diárias. Não há sistema centralizado para organizar horários, controlar carga horária por disciplina, acompanhar agendas dos instrutores e registrar eventos acadêmicos. Isso gera falta de rastreabilidade, dificuldade em reposições, baixa visibilidade da disponibilidade e risco de conflitos de horário.
+
+
+Benefícios esperados:
+Organizar de forma estruturada os horários de aprendizes e instrutores
+Garantir controle da carga horária aplicada por disciplina
+Reduzir conflitos de horários
+Melhorar a rastreabilidade das aulas ministradas
+Facilitar a gestão de eventos esporádicos e interturmas
+Consolidar a visualização da disponibilidade de instrutores
+Aumentar o controle sobre eventos individuais e em grupo
+
+
+Detalhamento:
+Precisamos de um sistema que entregue as seguintes funcionalidades:
+Diferentes entradas (aprendiz e instrutor)
+
+- Aprendiz
+Tem acesso a um único calendário, o seu
+Visualiza em seu calendário os eventos de aulas relacionadas a sua turma
+Visualiza em seu calendário as datas de eventos além de aulas definidos pelos instrutores ainda relacionado a sua turma
+Visualiza em seu calendário eventos pessoais relacionados ao aluno definidos pelos instrutores (podendo incluir outras pessoas, até de outras turmas)
+
+- Instrutor
+Pode criar matéria, que deve ter nome, carga horária, data de inicio, e data de encerramento
+Pode acessar diversos calendários e editar
+Em qualquer calendário:
+Pode inserir um evento pessoal ao aluno, envolvendo outras pessoas, ex: projeto Engenharia
+
+Calendário pessoal:
+Visualiza os eventos pessoais criados para si (podendo incluir outras pessoas, incluindo aprendizes)
+Visualiza os eventos de aula gerados por ser definido como responsável da aula
+Calendário de qualquer turma:
+Visualiza ao lado as matérias que estão ocorrendo no momento, quantas horas foram trabalhadas e quantas faltam
+Pode inserir eventos de aulas em uma data
+Pode alterar a data de uma aula já existente
+Pode adicionar eventos não relacionados a aula, ex: Apresentação do subsolo Bosch
+Calendário pessoal de um aluno:
+Pode inserir ou editar um evento pessoal do aluno, envolvendo outras pessoas, ex: projeto Engenharia
+
+- Regras
+Deve ser possível "bloquear" um evento, ou seja, definir que ele não pode ser realocado a menos que seja desbloqueado
+Incluir eventos que se repetem, com a opção de dizer quantos eventos ou até quando se repete e com que frequência, ex: segunda, terça e quinta são dias bloqueados do evento "Setor"
+
+
+Escola:
+(PR) SENAI - CIC
+
+
+Restrições (O que a solução não pode ter):
+Aprendiz possui apenas permissão de visualização, sem possibilidade de edição
+Eventos bloqueados não podem ser realocados enquanto estiverem bloqueados
+Eventos recorrentes devem respeitar a configuração de frequência e período definidos na criação
+
+{
+  "message": "Erro interno so servidorrelation \"participantes\" does not exist"
+}
+Response headers
+ access-control-allow-origin: * 
+ cache-control: public,max-age=0,must-revalidate 
+ content-length: 79 
+ content-type: application/json; charset=utf-8 
+ date: Thu,11 Jun 2026 17:30:48 GMT 
+ etag: W/"4f-oR0WoxT/rvsmW6cWBjOQh5qK120" 
+ server: Vercel 
+ strict-transport-security: max-age=63072000; includeSubDomains; preload 
+ x-powered-by: Express 
+ x-vercel-cache: MISS 
+ x-vercel-id: gru1::iad1::j4sz8-1781199048635-c81ed1cf196e 
