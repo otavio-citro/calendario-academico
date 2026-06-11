@@ -10,7 +10,9 @@ router.get('/disciplinas', autenticarToken, async (req, res) => {
     try {
         //cria uma variavel para enviar o comando sql
         const query = `
-        select d.nome,
+        select 
+        d.id_disciplina,
+        d.nome,
         d.carga_horaria,
         to_char(data_inicio, 'DD/MM/YYYY') as inicio,
         to_char(data_fim, 'DD/MM/YYYY') as fim , d.id_turma,

@@ -8,7 +8,7 @@ const SECRET_KEY = 'sua_chave_secreta'
 router.get('/usuarios', autenticarToken, async (req, res) => {
     try {
         //cria uma variavel para enviar o comando sql
-        const query = ` select u.nome, u.email, u.perfil, to_char(criado_em, 'DD/MM/YYYY HH24:MI') as criado_em
+        const query = ` select u.id_usuario, u.nome, u.email, u.perfil, to_char(criado_em, 'DD/MM/YYYY HH24:MI') as criado_em
                         from usuarios u where ativo = true order by id_usuario`
         //cria uma variavel para reveber o retorno no sql
         const usuarios = await BD.query(query);

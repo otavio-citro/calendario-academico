@@ -49,7 +49,7 @@ router.put('/participantes/:id_participante', autenticarToken, async (req, res) 
     // Dados do participante recebido via Corpo da página
     const { id_usuario, id_evento } = req.body;
     try {
-        const comando = `UPDATE participantes SET id_usuario = $1, id_evento = $2 WHERE
+        const comando = `UPDATE participantes_do_evento SET id_usuario = $1, id_evento = $2 WHERE
         id_participante = $3`;
         const valores = [id_usuario, id_evento, id_participante];
         await BD.query(comando, valores);
