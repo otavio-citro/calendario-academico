@@ -28,7 +28,7 @@ router.get('/turmasUsuarios', autenticarToken, async (req, res) => {
         return res.status(200).json(turmas_usuarios.rows);//200 ok
     } catch (error) {
         console.error('Erro ao listar usuarios da turma', error.message);
-        return res.status(500).json({ error: 'Erro ao listar usuarios da turma' })
+        return res.status(500).json({ error: 'Erro ao listar usuarios da turma'+ error.message })
     }
 })
 
@@ -44,8 +44,19 @@ router.post('/turmasUsuarios', autenticarToken, async (req, res) => {
 
         return res.status(201).json("usuarios da turma cadastrado.");
     } catch (error) {
+        let mensagem = 'Erro desconhecido'
+        
+        if (error.message.includes('turmas_usuarios_id_usuario_fkey')) {
+            mensagem = 'Usuario não existe'
+        }
+        if (error.message.includes('turmas_usuarios_id_turma_fkey')) {
+            mensagem = 'Turma não existe'
+        }
+        console.error('Erro ao cadastrar disciplinas', error.message);
+        
+        return res.status(500).json({ error: mensagem})
         console.error('Erro ao cadastrar usuario da turma', error.message);
-        return res.status(500).json({ error: 'Erro ao cadastrar usuario da turma' })
+        // return res.status(500).json({ error: 'Erro ao cadastrar usuario da turma'+ error.message })
     }
 })
 
@@ -74,7 +85,7 @@ router.put('/turmasUsuarios/:id_turma_usuario', autenticarToken, async (req, res
         return res.status(200).json('usuario da turma foi atualizada!');
     } catch (error) {
         console.error('Erro ao atualizar usuario da turma', error.message);
-        return res.status(500).json({ error: 'Erro ao atualizar usuario da turma' })
+        return res.status(500).json({ error: 'Erro ao atualizar usuario da turma'+ error.message })
     }
 })
 

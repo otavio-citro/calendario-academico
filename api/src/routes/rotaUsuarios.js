@@ -19,11 +19,11 @@ router.get('/usuarios', autenticarToken, async (req, res) => {
 
     } catch (error) {
         console.error('Erro ao listar usuarios', error.message)
-        return res.status(500).json({ error: 'Erro ao listar usuarios' })
+        return res.status(500).json({ error: 'Erro ao listar usuarios' + error.message })
     }
 })
 
-router.post('/usuarios', async (req, res) => {
+router.post('/usuarios', autenticarToken,async (req, res) => {
     const { nome, email, senha, perfil } = req.body
 
     console.log(nome);
@@ -41,10 +41,14 @@ router.post('/usuarios', async (req, res) => {
         console.log(responsta);
 
 
-        return res.status(201).json('usuario cadastrado')
+        return res.status(201).json('usuario cadastrado' + error.message)
     } catch (error) {
-        console.error('Erro ao cadastrar usuarios', error.message)
-        return res.status(500).json({ error: 'Erro ao cadastrar usuarios' })
+        let mensagem = 'Erro desconhecido'
+        if (error.message.includes('usuarios_email_key')) {
+            mensagem = 'Email ja existe'
+        }
+        console.error('Erro ao atualizar usuarios', error.message)
+        return res.status(500).json({ error: mensagem})
     }
 
 })
@@ -59,7 +63,7 @@ router.put('/usuarios/:id_usuario', autenticarToken, async (req, res) => {
         //verificar se o usuario existe
         const verificarUsuario = await BD.query(`SELECT * FROM usuarios where id_usuario = $1 and ativo = true`, [id_usuario]);
         if (verificarUsuario.rows.length === 0) {
-            return res.status(404).json({ message: 'Usuario nâo encontrado' })
+            return res.status(404).json({ message: 'Usuario nâo encontrado' + error.message})
         }
         const saltRounds = 10;
         //gerando a hash da senha
@@ -69,10 +73,10 @@ router.put('/usuarios/:id_usuario', autenticarToken, async (req, res) => {
         const valores = [nome, email, senhaCriptografada, perfil, id_usuario];
         await BD.query(comando, valores)
 
-        return res.status(200).json('usuario atualizado')
+        return res.status(200).json('usuario atualizado' + error.message)
     } catch (error) {
         console.error('Erro ao atualizar usuarios', error.message)
-        return res.status(500).json({ error: 'Erro ao atualizar usuarios' })
+        return res.status(500).json({ error: 'Erro ao atualizar usuarios' + error.message})
     }
 })
 
@@ -131,7 +135,7 @@ router.post('/login', async (req, res) => {
 
     } catch (error) {
         console.error('erro no login', error.message);
-        return res.status(500).json({ message: "erro interno no servidor" });
+        return res.status(500).json({ message: "erro interno no servidor" + error.message});
     }
 });
 

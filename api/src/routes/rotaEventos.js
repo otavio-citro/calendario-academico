@@ -32,7 +32,7 @@ router.get('/eventos', autenticarToken, async (req, res) => {
         return res.status(200).json(eventos.rows);//200 ok
     } catch (error) {
         console.error('Erro ao listar eventos', error.message);
-        return res.status(500).json({ error: 'Erro ao listar eventos' })
+        return res.status(500).json({ error: 'Erro ao listar eventos'+ error.message })
     }
 })
 
@@ -48,8 +48,22 @@ router.post('/eventos', autenticarToken, async (req, res) => {
 
         return res.status(201).json("eventos cadastrado.");
     } catch (error) {
+        let mensagem = 'Erro desconhecido'
+        
+        if (error.message.includes('eventos_id_calendario_fkey')) {
+            mensagem = 'Calendario não existe'
+        }
+        if (error.message.includes('eventos_id_disciplina_fkey')) {
+            mensagem = 'Disciplina não existe'
+        }
+        if (error.message.includes('eventos_criado_por_fkey')) {
+            mensagem = 'Usuario não existe'
+        }
+        console.error('Erro ao cadastrar disciplinas', error.message);
+        
+        return res.status(500).json({ error: mensagem})
         console.error('Erro ao cadastrar evento', error.message);
-        return res.status(500).json({ error: 'Erro ao cadastrar evento' })
+        // return res.status(500).json({ error: 'Erro ao cadastrar evento'+ error.message })
     }
 })
 
@@ -78,7 +92,7 @@ router.put('/eventos/:id_evento', autenticarToken, async (req, res) => {
         return res.status(200).json('evento foi atualizado!');
     } catch (error) {
         console.error('Erro ao atualizar evento', error.message);
-        return res.status(500).json({ error: 'Erro ao atualizar evento' })
+        return res.status(500).json({ error: 'Erro ao atualizar evento'+ error.message })
     }
 })
 

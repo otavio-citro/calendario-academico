@@ -19,7 +19,7 @@ router.get('/participantes', autenticarToken, async (req, res) => {
         return res.status(200).json(participante.rows);//200 ok
     } catch (error) {
         console.error('Erro ao listar participantes', error.message);
-        return res.status(500).json({ error: 'Erro ao listar participantes' })
+        return res.status(500).json({ error: 'Erro ao listar participantes'+ error.message })
     }
 })
 
@@ -35,8 +35,19 @@ router.post('/participantes', autenticarToken, async (req, res) => {
 
         return res.status(201).json("participante cadastrada.");
     } catch (error) {
+        let mensagem = 'Erro desconhecido'
+        
+        if (error.message.includes('participantes_do_evento_id_usuario_fkey')) {
+            mensagem = 'Usuario não existe'
+        }
+        if (error.message.includes('participantes_do_evento_id_evento_fkey')) {
+            mensagem = 'Evento não existe'
+        }
+        console.error('Erro ao cadastrar disciplinas', error.message);
+        
+        return res.status(500).json({ error: mensagem})
         console.error('Erro ao cadastrar participantes', error.message);
-        return res.status(500).json({ error: 'Erro ao cadastrar participantes' })
+        // return res.status(500).json({ error: 'Erro ao cadastrar participantes'+ error.message })
     }
 })
 
@@ -57,7 +68,7 @@ router.put('/participantes/:id_participante', autenticarToken, async (req, res) 
         return res.status(200).json('participante foi atualizada!');
     } catch (error) {
         console.error('Erro ao atualizar participantes', error.message);
-        return res.status(500).json({ error: 'Erro ao atualizar participantes' })
+        return res.status(500).json({ error: 'Erro ao atualizar participantes'+ error.message })
     }
 })
 

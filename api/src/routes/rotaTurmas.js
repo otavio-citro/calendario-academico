@@ -19,7 +19,7 @@ router.get('/turmas', autenticarToken, async (req, res) => {
         return res.status(200).json(turmas.rows);//200 ok
     } catch (error) {
         console.error('Erro ao listar turmas', error.message);
-        return res.status(500).json({ error: 'Erro ao listar turmas' })
+        return res.status(500).json({ error: 'Erro ao listar turmas' + error.message})
     }
 })
 
@@ -36,7 +36,7 @@ router.post('/turmas', autenticarToken, async (req, res) => {
         return res.status(201).json("Turma cadastrada.");
     } catch (error) {
         console.error('Erro ao cadastrar turmas', error.message);
-        return res.status(500).json({ error: 'Erro ao cadastrar turmas' })
+        return res.status(500).json({ error: 'Erro ao cadastrar turmas'+ error.message })
     }
 })
 
@@ -65,7 +65,7 @@ router.put('/turmas/:id_turma', autenticarToken, async (req, res) => {
         return res.status(200).json('turma foi atualizada!');
     } catch (error) {
         console.error('Erro ao atualizar turmas', error.message);
-        return res.status(500).json({ error: 'Erro ao atualizar turmas' })
+        return res.status(500).json({ error: 'Erro ao atualizar turmas'+ error.message })
     }
 })
 

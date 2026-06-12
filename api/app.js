@@ -22,7 +22,7 @@
 app.get('/swagger', (req, res) => {
  res.send(`<!DOCTYPE html>
 <html><head>
-  <title>API Ordens de Serviço</title>
+  <title>API Calendario Academico</title>
   <meta charset="utf-8"/>
   <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
 </head><body>

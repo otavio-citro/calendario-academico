@@ -26,7 +26,7 @@ router.get('/disciplinas', autenticarToken, async (req, res) => {
         return res.status(200).json(disciplinas.rows);//200 ok
     } catch (error) {
         console.error('Erro ao listar disciplinas', error.message);
-        return res.status(500).json({ error: 'Erro ao listar disciplinas' })
+        return res.status(500).json({ error: 'Erro ao listar disciplinas'+ error.message })
     }
 })
 
@@ -47,8 +47,17 @@ router.post('/disciplinas', autenticarToken, async (req, res) => {
 
         return res.status(201).json("disciplina cadastrada.");
     } catch (error) {
+        let mensagem = 'Erro desconhecido'
+        
+        if (error.message.includes('disciplinas_id_turma_fkey')) {
+            mensagem = 'Turma não existe'
+        }
+        if (error.message.includes('disciplinas_id_instrutor_fkey')) {
+            mensagem = 'instrutor não existe'
+        }
         console.error('Erro ao cadastrar disciplinas', error.message);
-        return res.status(500).json({ error: 'Erro ao cadastrar disciplinas' })
+        // return res.status(500).json({ error: 'Erro ao cadastrar disciplinas'+ error.message })
+        return res.status(500).json({ error: mensagem})
     }
 })
 
@@ -69,7 +78,7 @@ router.put('/disciplinas/:id_disciplina', autenticarToken, async (req, res) => {
         return res.status(200).json('disciplina foi atualizada!');
     } catch (error) {
         console.error('Erro ao atualizar disciplinas', error.message);
-        return res.status(500).json({ error: 'Erro ao atualizar disciplinas' })
+        return res.status(500).json({ error: 'Erro ao atualizar disciplinas'+ error.message })
     }
 })
 

@@ -19,7 +19,7 @@ router.get('/calendarios', autenticarToken, async (req, res) => {
         return res.status(200).json(calendario.rows);//200 ok
     } catch (error) {
         console.error('Erro ao listar calendarios', error.message);
-        return res.status(500).json({ error: 'Erro ao listar calendarios' })
+        return res.status(500).json({ error: 'Erro ao listar calendarios'+ error.message })
     }
 })
 
@@ -35,8 +35,19 @@ router.post('/calendarios', autenticarToken, async (req, res) => {
 
         return res.status(201).json("calendario cadastrada.");
     } catch (error) {
+        let mensagem = 'Erro desconhecido'
+        
+        if (error.message.includes('calendarios_id_usuario_fkey')) {
+            mensagem = 'Usuario não existe'
+        }
+        if (error.message.includes('calendarios_id_turma_fkey')) {
+            mensagem = 'Turma não existe'
+        }
+        console.error('Erro ao cadastrar disciplinas', error.message);
+        
+        return res.status(500).json({ error: mensagem})
         console.error('Erro ao cadastrar calendarios', error.message);
-        return res.status(500).json({ error: 'Erro ao cadastrar calendarios' })
+        // return res.status(500).json({ error: 'Erro ao cadastrar calendarios'+ error.message })
     }
 })
 
@@ -57,7 +68,7 @@ router.put('/calendarios/:id_calendario', autenticarToken, async (req, res) => {
         return res.status(200).json('calendario foi atualizada!');
     } catch (error) {
         console.error('Erro ao atualizar calendarios', error.message);
-        return res.status(500).json({ error: 'Erro ao atualizar calendarios' })
+        return res.status(500).json({ error: 'Erro ao atualizar calendarios' + error.message})
     }
 })
 
