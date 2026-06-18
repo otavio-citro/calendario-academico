@@ -52,17 +52,19 @@ router.post('/eventos', autenticarToken, async (req, res) => {
         
         if (error.message.includes('eventos_id_calendario_fkey')) {
             mensagem = 'Calendario não existe'
+            return res.status(500).json({ error: mensagem})
         }
         if (error.message.includes('eventos_id_disciplina_fkey')) {
             mensagem = 'Disciplina não existe'
+            return res.status(500).json({ error: mensagem})
         }
         if (error.message.includes('eventos_criado_por_fkey')) {
             mensagem = 'Usuario não existe'
+            return res.status(500).json({ error: mensagem})
         }
-        console.error('Erro ao cadastrar disciplinas', error.message);
         
-        return res.status(500).json({ error: mensagem})
         console.error('Erro ao cadastrar evento', error.message);
+        return res.status(500).json({ error: error.message})
         // return res.status(500).json({ error: 'Erro ao cadastrar evento'+ error.message })
     }
 })

@@ -28,6 +28,14 @@ router.post('/usuarios', autenticarToken,async (req, res) => {
 
     console.log(nome);
 
+    const validacaoEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!validacaoEmail.test(email)) {
+        return res.status(400).json({
+            error: 'Email inválido. Exemplo: usuario@email.com'
+        });
+    }
+
     try {
         //definir a força da criptografia
         const saltRounds = 10;
@@ -41,14 +49,15 @@ router.post('/usuarios', autenticarToken,async (req, res) => {
         console.log(responsta);
 
 
-        return res.status(201).json('usuario cadastrado' + error.message)
+        return res.status(201).json('usuario cadastrado')
     } catch (error) {
         let mensagem = 'Erro desconhecido'
         if (error.message.includes('usuarios_email_key')) {
             mensagem = 'Email ja existe'
+            return res.status(500).json({ error: mensagem })
         }
         console.error('Erro ao atualizar usuarios', error.message)
-        return res.status(500).json({ error: mensagem})
+        return res.status(500).json({ error: error.message })
     }
 
 })
@@ -73,7 +82,7 @@ router.put('/usuarios/:id_usuario', autenticarToken, async (req, res) => {
         const valores = [nome, email, senhaCriptografada, perfil, id_usuario];
         await BD.query(comando, valores)
 
-        return res.status(200).json('usuario atualizado' + error.message)
+        return res.status(200).json('usuario atualizado')
     } catch (error) {
         console.error('Erro ao atualizar usuarios', error.message)
         return res.status(500).json({ error: 'Erro ao atualizar usuarios' + error.message})

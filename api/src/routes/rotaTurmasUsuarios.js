@@ -48,14 +48,14 @@ router.post('/turmasUsuarios', autenticarToken, async (req, res) => {
         
         if (error.message.includes('turmas_usuarios_id_usuario_fkey')) {
             mensagem = 'Usuario não existe'
+            return res.status(500).json({ error: mensagem})
         }
         if (error.message.includes('turmas_usuarios_id_turma_fkey')) {
             mensagem = 'Turma não existe'
-        }
-        console.error('Erro ao cadastrar disciplinas', error.message);
-        
-        return res.status(500).json({ error: mensagem})
+            return res.status(500).json({ error: mensagem})
+        }       
         console.error('Erro ao cadastrar usuario da turma', error.message);
+        return res.status(500).json({ error: error.message})
         // return res.status(500).json({ error: 'Erro ao cadastrar usuario da turma'+ error.message })
     }
 })

@@ -39,14 +39,15 @@ router.post('/calendarios', autenticarToken, async (req, res) => {
         
         if (error.message.includes('calendarios_id_usuario_fkey')) {
             mensagem = 'Usuario não existe'
+            return res.status(500).json({ error: mensagem})
         }
         if (error.message.includes('calendarios_id_turma_fkey')) {
             mensagem = 'Turma não existe'
+            return res.status(500).json({ error: mensagem})
         }
-        console.error('Erro ao cadastrar disciplinas', error.message);
         
-        return res.status(500).json({ error: mensagem})
         console.error('Erro ao cadastrar calendarios', error.message);
+        return res.status(500).json({ error: error.message})
         // return res.status(500).json({ error: 'Erro ao cadastrar calendarios'+ error.message })
     }
 })
