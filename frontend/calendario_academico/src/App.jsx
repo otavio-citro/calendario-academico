@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import Principal from "./pages/principal"
+import Principal from './pages/Principal'
 import Login from "./pages/Login"
 import Cadastro from "./pages/Cadastro"
 import RotaPrivada from "./components/RotaPrivada"
