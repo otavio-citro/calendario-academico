@@ -8,7 +8,7 @@ const documentacao = {
   },
 
   servers: [
-  {
+    {
       url: "http://localhost:3002",
       description: "Servidor Local"
     },
@@ -352,7 +352,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           500: {
@@ -396,19 +403,46 @@ const documentacao = {
 
         responses: {
           201: {
-            description: "Usuário cadastrado com sucesso"
+            description: "Usuário cadastrado com sucesso",
+            content: {
+              "application/json": {
+                example: "usuario cadastrado"
+              }
+            }
           },
 
           400: {
-            description: "Dados inválidos"
+            description: "Dados inválidos",
+            content: {
+              "application/json": {
+                example: {
+                  error: "Email inválido. Exemplo: usuario@email.com"
+                }
+              }
+            }
+          },
+          409: {
+            description: "Conflito de dados",
+            content: {
+              "application/json": {
+                example: {
+                  error: "Email já cadastrado"
+                }
+              }
+            }
           },
 
           500: {
-            description: "Erro interno do servidor"
+            description: "Erro interno do servidor",
+            content: {
+              "application/json": {
+                example: {
+                  error: "Erro ao cadastrar usuários"
+                }
+              }
+            }
           }
         }
-
-
       }
     },
 
@@ -461,7 +495,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           404: {
@@ -508,7 +549,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           404: {
@@ -566,7 +614,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           500: {
@@ -668,7 +723,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           404: {
@@ -713,7 +775,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           404: {
@@ -767,7 +836,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           500: {
@@ -867,7 +943,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           404: {
@@ -912,7 +995,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           404: {
@@ -969,7 +1059,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           500: {
@@ -1076,7 +1173,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           404: {
@@ -1120,7 +1224,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           404: {
@@ -1170,7 +1281,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           500: {
@@ -1271,7 +1389,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           404: {
@@ -1315,7 +1440,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           404: {
@@ -1379,7 +1511,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           500: {
@@ -1493,7 +1632,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           404: {
@@ -1537,7 +1683,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           404: {
@@ -1585,7 +1738,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           500: {
@@ -1684,7 +1844,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           404: {
@@ -1728,7 +1895,14 @@ const documentacao = {
           },
 
           401: {
-            description: "Token inválido"
+            description: "Não autorizado",
+            content: {
+              "application/json": {
+                example: {
+                  error: "token não fornecido"
+                }
+              }
+            }
           },
 
           404: {

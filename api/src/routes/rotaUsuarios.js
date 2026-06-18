@@ -53,8 +53,8 @@ router.post('/usuarios', autenticarToken,async (req, res) => {
     } catch (error) {
         let mensagem = 'Erro desconhecido'
         if (error.message.includes('usuarios_email_key')) {
-            mensagem = 'Email ja existe'
-            return res.status(500).json({ error: mensagem })
+            mensagem = 'Email ja cadastrado'
+            return res.status(409).json({ error: mensagem })
         }
         console.error('Erro ao atualizar usuarios', error.message)
         return res.status(500).json({ error: error.message })
