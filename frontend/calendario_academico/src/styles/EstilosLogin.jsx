@@ -14,7 +14,7 @@ export const EstilosLogin = {
     justifyContent: 'center',
     minHeight: '100vh',
     // background: `linear-gradient(to bottom, ${corPrincipal}, ${corFundo2})`,
-    background: '#fff',
+    background: 'rgba(250, 242, 242, 0.81)',
     padding: '20px',
     boxSizing: 'border-box',
     fontFamily: 'sans-serif',

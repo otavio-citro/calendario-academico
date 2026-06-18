@@ -39,6 +39,25 @@ router.get('/eventos', autenticarToken, async (req, res) => {
 //Endpoint seguro contra sql Injection
 router.post('/eventos', autenticarToken, async (req, res) => {
     const { titulo, tipo, inicio, fim, id_calendario, id_disciplina, criado_por, bloqueado, nome_recorrencia, frequencia_recorrencia } = req.body;
+
+    if (!titulo || !tipo || !inicio || !fim || !id_calendario) {
+        return res.status(400).json({
+            error: 'Todos os campos obrigatórios devem ser preenchidos'
+        });
+    }
+
+    if (isNaN(Date.parse(inicio))) {
+        return res.status(400).json({
+            error: 'Data de início inválida'
+        });
+    }
+
+    if (isNaN(Date.parse(fim))) {
+        return res.status(400).json({
+            error: 'Data de fim inválida'
+        });
+    }
+
     try {
         const comando = `INSERT INTO eventos(titulo, tipo, inicio, fim, id_calendario, id_disciplina, criado_por, bloqueado, nome_recorrencia, frequencia_recorrencia) VALUES($1, $2, $3, $4 , $5, $6, $7, $8, $9, $10)`
         const valores = [titulo, tipo, inicio, fim, id_calendario, id_disciplina, criado_por, bloqueado, nome_recorrencia, frequencia_recorrencia];
@@ -49,23 +68,21 @@ router.post('/eventos', autenticarToken, async (req, res) => {
         return res.status(201).json("eventos cadastrado.");
     } catch (error) {
         let mensagem = 'Erro desconhecido'
-        
+
         if (error.message.includes('eventos_id_calendario_fkey')) {
             mensagem = 'Calendario não existe'
-            return res.status(500).json({ error: mensagem})
+            return res.status(404).json({ error: mensagem })
         }
         if (error.message.includes('eventos_id_disciplina_fkey')) {
             mensagem = 'Disciplina não existe'
-            return res.status(500).json({ error: mensagem})
+            return res.status(404).json({ error: mensagem })
         }
         if (error.message.includes('eventos_criado_por_fkey')) {
             mensagem = 'Usuario não existe'
-            return res.status(500).json({ error: mensagem})
+            return res.status(404).json({ error: mensagem })
         }
-        
         console.error('Erro ao cadastrar evento', error.message);
-        return res.status(500).json({ error: error.message})
-        // return res.status(500).json({ error: 'Erro ao cadastrar evento'+ error.message })
+        return res.status(500).json({ error: error.message })
     }
 })
 

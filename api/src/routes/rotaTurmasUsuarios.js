@@ -35,6 +35,13 @@ router.get('/turmasUsuarios', autenticarToken, async (req, res) => {
 //Endpoint seguro contra sql Injection
 router.post('/turmasUsuarios', autenticarToken, async (req, res) => {
     const { id_usuario, id_turma } = req.body;
+
+    if (!id_usuario || !id_turma ) {
+        return res.status(400).json({
+            error: 'Todos os campos obrigatórios devem ser preenchidos'
+        });
+    }
+
     try {
         const comando = `INSERT INTO turmas_usuarios(id_usuario, id_turma) VALUES($1, $2)`
         const valores = [id_usuario, id_turma];
@@ -48,11 +55,11 @@ router.post('/turmasUsuarios', autenticarToken, async (req, res) => {
         
         if (error.message.includes('turmas_usuarios_id_usuario_fkey')) {
             mensagem = 'Usuario não existe'
-            return res.status(500).json({ error: mensagem})
+            return res.status(404).json({ error: mensagem})
         }
         if (error.message.includes('turmas_usuarios_id_turma_fkey')) {
             mensagem = 'Turma não existe'
-            return res.status(500).json({ error: mensagem})
+            return res.status(404).json({ error: mensagem})
         }       
         console.error('Erro ao cadastrar usuario da turma', error.message);
         return res.status(500).json({ error: error.message})

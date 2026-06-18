@@ -33,6 +33,27 @@ router.get('/disciplinas', autenticarToken, async (req, res) => {
 //Endpoint seguro contra sql Injection
 router.post('/disciplinas', autenticarToken, async (req, res) => {
     const { nome, carga_horaria, data_inicio, data_fim, id_turma, id_instrutor } = req.body;
+    
+    if (!nome || !carga_horaria || !data_inicio || !data_fim || !id_turma || !id_instrutor ) {
+        return res.status(400).json({
+            error: 'Todos os campos obrigatórios devem ser preenchidos'
+        });
+    }
+
+    const dataCerta = /^\d{4}-\d{2}-\d{2}$/;
+
+if (!dataCerta.test(data_inicio)) {
+    return res.status(400).json({
+        error: 'Data de início inválida. Exemplo: 2026-06-13'
+    });
+}
+
+if (!dataCerta.test(data_fim)) {
+    return res.status(400).json({
+        error: 'Data de fim inválida. Exemplo: 2026-06-13'
+    });
+}
+
     try {
         const comando = `INSERT INTO disciplinas
         (nome, carga_horaria, data_inicio, data_fim, id_turma, id_instrutor)
@@ -51,11 +72,11 @@ router.post('/disciplinas', autenticarToken, async (req, res) => {
         
         if (error.message.includes('disciplinas_id_turma_fkey')) {
             mensagem = 'Turma não existe'
-            return res.status(500).json({ error: mensagem})
+            return res.status(404).json({ error: mensagem})
         }
         if (error.message.includes('disciplinas_id_instrutor_fkey')) {
             mensagem = 'instrutor não existe'
-            return res.status(500).json({ error: mensagem})
+            return res.status(404).json({ error: mensagem})
         }
         console.error('Erro ao cadastrar disciplinas', error.message);
         // return res.status(500).json({ error: 'Erro ao cadastrar disciplinas'+ error.message })

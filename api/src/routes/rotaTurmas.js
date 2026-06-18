@@ -26,6 +26,13 @@ router.get('/turmas', autenticarToken, async (req, res) => {
 //Endpoint seguro contra sql Injection
 router.post('/turmas', autenticarToken, async (req, res) => {
     const { nome, descricao, codigo_turma } = req.body;
+
+    if (!nome || !descricao || !codigo_turma) {
+        return res.status(400).json({
+            error: 'Todos os campos obrigatórios devem ser preenchidos'
+        });
+    }
+
     try {
         const comando = `INSERT INTO turmas(nome, descricao, codigo_turma) VALUES($1, $2, $3)`
         const valores = [nome, descricao, codigo_turma];

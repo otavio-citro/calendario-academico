@@ -28,6 +28,12 @@ router.post('/usuarios', autenticarToken,async (req, res) => {
 
     console.log(nome);
 
+    if (!nome || !email || !senha || !perfil) {
+        return res.status(400).json({
+            error: 'Todos os campos são obrigatórios'
+        });
+    }
+
     const validacaoEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!validacaoEmail.test(email)) {
@@ -72,7 +78,7 @@ router.put('/usuarios/:id_usuario', autenticarToken, async (req, res) => {
         //verificar se o usuario existe
         const verificarUsuario = await BD.query(`SELECT * FROM usuarios where id_usuario = $1 and ativo = true`, [id_usuario]);
         if (verificarUsuario.rows.length === 0) {
-            return res.status(404).json({ message: 'Usuario nâo encontrado' + error.message})
+            return res.status(404).json({ message: 'Usuario nâo encontrado'})
         }
         const saltRounds = 10;
         //gerando a hash da senha
@@ -91,6 +97,12 @@ router.put('/usuarios/:id_usuario', autenticarToken, async (req, res) => {
 
 router.delete('/usuarios/:id_usuario', autenticarToken, async (req, res) => {
     const { id_usuario } = req.params
+
+    const verificarUsuario = await BD.query(`SELECT * FROM usuarios where id_usuario = $1 and ativo = true`, [id_usuario]);
+        if (verificarUsuario.rows.length === 0) {
+            return res.status(404).json({ message: 'Usuario nâo encontrado'})
+        }
+
     try {
         //executa o comando de delete
         const comando = `update usuarios set ativo = false where id_usuario = $1`

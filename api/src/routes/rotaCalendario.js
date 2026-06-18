@@ -26,6 +26,13 @@ router.get('/calendarios', autenticarToken, async (req, res) => {
 //Endpoint seguro contra sql Injection
 router.post('/calendarios', autenticarToken, async (req, res) => {
     const { nome, id_usuario, id_turma } = req.body;
+
+    if (!nome || !id_usuario || !id_turma ) {
+        return res.status(400).json({
+            error: 'Todos os campos obrigatórios devem ser preenchidos'
+        });
+    }
+
     try {
         const comando = `INSERT INTO calendarios(nome, id_usuario, id_turma) VALUES($1, $2, $3)`
         const valores = [nome, id_usuario, id_turma];
@@ -39,11 +46,11 @@ router.post('/calendarios', autenticarToken, async (req, res) => {
         
         if (error.message.includes('calendarios_id_usuario_fkey')) {
             mensagem = 'Usuario não existe'
-            return res.status(500).json({ error: mensagem})
+            return res.status(404).json({ error: mensagem})
         }
         if (error.message.includes('calendarios_id_turma_fkey')) {
             mensagem = 'Turma não existe'
-            return res.status(500).json({ error: mensagem})
+            return res.status(404).json({ error: mensagem})
         }
         
         console.error('Erro ao cadastrar calendarios', error.message);

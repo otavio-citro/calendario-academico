@@ -26,6 +26,13 @@ router.get('/participantes', autenticarToken, async (req, res) => {
 //Endpoint seguro contra sql Injection
 router.post('/participantes', autenticarToken, async (req, res) => {
     const { id_usuario, id_evento } = req.body;
+
+    if (!id_usuario || !id_evento ) {
+        return res.status(400).json({
+            error: 'Todos os campos obrigatórios devem ser preenchidos'
+        });
+    }
+
     try {
         const comando = `INSERT INTO participantes_do_evento(id_usuario, id_evento) VALUES($1, $2)`
         const valores = [id_usuario, id_evento];
@@ -39,11 +46,11 @@ router.post('/participantes', autenticarToken, async (req, res) => {
         
         if (error.message.includes('participantes_do_evento_id_usuario_fkey')) {
             mensagem = 'Usuario não existe'
-            return res.status(500).json({ error: mensagem})
+            return res.status(404).json({ error: mensagem})
         }
         if (error.message.includes('participantes_do_evento_id_evento_fkey')) {
             mensagem = 'Evento não existe'
-            return res.status(500).json({ error: mensagem})
+            return res.status(404).json({ error: mensagem})
         }
                 
         return res.status(500).json({ error: error.message})

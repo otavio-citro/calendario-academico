@@ -20,7 +20,7 @@ const Login = () => {
             if (UsuarioLogado) {
                 const usuario = JSON.parse(UsuarioLogado)
                 if (usuario.lembrar == true) {
-                    navigate('/principal')
+                    navigate('/')
                 }
             }
         }

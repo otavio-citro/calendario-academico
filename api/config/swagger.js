@@ -293,15 +293,44 @@ const documentacao = {
 
         responses: {
           200: {
-            description: "Login realizado com sucesso"
+            description: "Login realizado com sucesso",
+            content: {
+              "application/json": {
+                example: [
+                  {
+                    "message": "login realizado com sucesso",
+                    "token": "eyJhbGciOiJIUzI1NiIs...",
+                    "usuario": {
+                      "id": 1,
+                      "nome": "João Silva",
+                      "email": "joao@email.com"
+                    }
+                  }
+                ]
+              }
+            }
           },
 
           400: {
-            description: "Campo obrigatório vazio"
+            description: "Campo obrigatório vazio",
+            content: {
+              "application/json": {
+                example: {
+                  message: "campo obrigatorio vago!"
+                }
+              }
+            }
           },
 
           401: {
-            description: "Email ou senha inválidos"
+            description: "Email ou senha inválidos",
+            content: {
+              "application/json": {
+                example: {
+                  message: "Email ou senha invalidos!"
+                }
+              }
+            }
           },
 
           500: {
@@ -415,8 +444,19 @@ const documentacao = {
             description: "Dados inválidos",
             content: {
               "application/json": {
-                example: {
-                  error: "Email inválido. Exemplo: usuario@email.com"
+                examples: {
+                  camposObrigatorios: {
+                    summary: "Campos não preenchidos",
+                    value: {
+                      error: "Todos os campos são obrigatórios"
+                    }
+                  },
+                  emailInvalido: {
+                    summary: "Email inválido",
+                    value: {
+                      error: "Email inválido. Exemplo: usuario@email.com"
+                    }
+                  }
                 }
               }
             }
@@ -491,7 +531,14 @@ const documentacao = {
 
         responses: {
           200: {
-            description: "Usuário atualizado com sucesso"
+            description: "Usuário atualizado com sucesso",
+            content: {
+              "application/json": {
+                example: {
+                  message: "usuário atualizado"
+                }
+              }
+            }
           },
 
           401: {
@@ -506,7 +553,14 @@ const documentacao = {
           },
 
           404: {
-            description: "Usuário não encontrado"
+            description: "Usuário não encontrado",
+            content: {
+              "application/json": {
+                example: {
+                  message: "Usuario nâo encontrado"
+                }
+              }
+            }
           },
 
           500: {
@@ -545,7 +599,14 @@ const documentacao = {
 
         responses: {
           200: {
-            description: "Usuário removido com sucesso"
+            description: "Usuário removido com sucesso",
+            content: {
+              "application/json": {
+                example: {
+                  message: "usuario removido com sucesso"
+                }
+              }
+            }
           },
 
           401: {
@@ -560,7 +621,14 @@ const documentacao = {
           },
 
           404: {
-            description: "Usuário não encontrado"
+            description: "Usuário não encontrado",
+            content: {
+              "application/json": {
+                example: {
+                  message: "Usuario nâo encontrado"
+                }
+              }
+            }
           },
 
           500: {
@@ -1565,15 +1633,90 @@ const documentacao = {
 
         responses: {
           201: {
-            description: "Evento cadastrado com sucesso"
+            description: "Evento cadastrado com sucesso",
+            content: {
+              "application/json": {
+                example: "eventos cadastrado."
+              }
+            }
           },
 
           400: {
-            description: "Dados inválidos"
+            description: "Dados inválidos",
+            content: {
+              "application/json": {
+                examples: {
+                  camposObrigatorios: {
+                    summary: "Campos obrigatórios",
+                    value: {
+                      error: "Todos os campos obrigatórios devem ser preenchidos"
+                    }
+                  },
+                  dataInicioInvalida: {
+                    summary: "Data de início inválida",
+                    value: {
+                      error: "Data de início inválida"
+                    }
+                  },
+                  dataFimInvalida: {
+                    summary: "Data de fim inválida",
+                    value: {
+                      error: "Data de fim inválida"
+                    }
+                  }
+                }
+              }
+            }
+          },
+
+          401: {
+            description: "Token inválido",
+            content: {
+              "application/json": {
+                example: {
+                  message: "Token não fornecido"
+                }
+              }
+            }
+          },
+
+          404: {
+            description: "Registro não encontrado",
+            content: {
+              "application/json": {
+                examples: {
+                  calendarioNaoExiste: {
+                    summary: "Calendário não encontrado",
+                    value: {
+                      error: "Calendario não existe"
+                    }
+                  },
+                  disciplinaNaoExiste: {
+                    summary: "Disciplina não encontrada",
+                    value: {
+                      error: "Disciplina não existe"
+                    }
+                  },
+                  usuarioNaoExiste: {
+                    summary: "Usuário não encontrado",
+                    value: {
+                      error: "Usuario não existe"
+                    }
+                  }
+                }
+              }
+            }
           },
 
           500: {
-            description: "Erro interno do servidor"
+            description: "Erro interno do servidor",
+            content: {
+              "application/json": {
+                example: {
+                  error: "Erro interno do servidor"
+                }
+              }
+            }
           }
         }
       }
