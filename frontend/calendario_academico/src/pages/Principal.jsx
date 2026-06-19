@@ -19,12 +19,18 @@ const Principal = () => {
         setDadosLogin(null)
         navigate('/login')
     }
+
+    function botaoCadastrar(){
+        navigate('/cadastro')
+    }
+
     return (
         <div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px', borderBottom: '1px solid #ccc' }}>
                 <p style={{ fontSize: '18px' }}> Usuário: {dadosLogin?.usuario?.nome || ''} ({dadosLogin?.usuario?.email  || ''}) </p>
                 <button onClick={botaoSair}>sair</button>
+                <button onClick={botaoCadastrar}>Cadastrar</button>
             </div>
             <h2>Principal</h2>
         </div>
