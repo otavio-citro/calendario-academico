@@ -57,11 +57,11 @@ router.put('/turmas/:id_turma', autenticarToken, async (req, res) => {
     const { nome, descricao, codigo_turma } = req.body;
     try {
         //Verificar se o turma existe
-        // const verificarTurma = await BD.query(`SELECT * FROM turmas
-        //     WHERE id_turma = $1`, [id_turma])
-        // if (verificarTurma.rows.length === 0) {
-        //     return res.status(404).json({ message: 'turma não encontrado' })
-        // }
+        const verificarTurma = await BD.query(`SELECT * FROM turmas
+            WHERE id_turma = $1`, [id_turma])
+        if (verificarTurma.rows.length === 0) {
+            return res.status(404).json({ message: 'turma não encontrada' })
+        }
 
         // Atualiza todos os campos da tabela(PUT Substituição completa)
         const comando = `UPDATE turmas SET nome = $1, descricao = $2, codigo_turma = $3 WHERE
@@ -79,6 +79,11 @@ router.put('/turmas/:id_turma', autenticarToken, async (req, res) => {
 router.delete('/turmas/:id_turma', autenticarToken, async (req, res) => {
     const { id_turma } = req.params;
     try {
+        const verificarTurma = await BD.query(`SELECT * FROM turmas
+            WHERE id_turma = $1`, [id_turma])
+        if (verificarTurma.rows.length === 0) {
+            return res.status(404).json({ message: 'turma não encontrada' })
+        }
         //Executa o comando de delete
         // const comando = `DELETE FROM turmaS WHERE id_turma = $1`
         const comando = `DELETE from turmas WHERE id_turma = $1 `

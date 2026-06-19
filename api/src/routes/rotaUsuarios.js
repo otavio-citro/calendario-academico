@@ -73,6 +73,15 @@ router.put('/usuarios/:id_usuario', autenticarToken, async (req, res) => {
     const { id_usuario } = req.params;
     //dados de usuario recebido via corpo da pagina
     const { nome, email, senha, perfil } = req.body
+
+    const validacaoEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!validacaoEmail.test(email)) {
+        return res.status(400).json({
+            error: 'Email inválido. Exemplo: usuario@email.com'
+        });
+    }
+
     try {
 
         //verificar se o usuario existe

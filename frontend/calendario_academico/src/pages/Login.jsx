@@ -1,9 +1,9 @@
-import { useState , useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { enredecoServidor } from '../Utils'
+import { enredecoServidor, obterToken } from '../Utils'
 import logo from '../assets/logo.png'
-import {EstilosLogin} from '../styles/EstilosLogin'
-import {MdEmail, MdLock, MdVisibility, MdVisibilityOff} from 'react-icons/md'
+import { EstilosLogin } from '../styles/EstilosLogin'
+import { MdEmail, MdLock, MdVisibility, MdVisibilityOff } from 'react-icons/md'
 
 
 const Login = () => {
@@ -15,7 +15,7 @@ const Login = () => {
     const [lembrar, setLembrar] = useState(false)
 
     useEffect(() => {
-      async  function buscarUsuario() {
+        async function buscarUsuario() {
             const UsuarioLogado = await localStorage.getItem('UsuarioLogado')
             if (UsuarioLogado) {
                 const usuario = JSON.parse(UsuarioLogado)
@@ -66,6 +66,8 @@ const Login = () => {
             }
             const dados = await resposta.json()
 
+            const token = obterToken()
+
             if (resposta.status == 500) {
                 setMensagem(dados.message)
                 return
@@ -74,7 +76,7 @@ const Login = () => {
             if (resposta.ok) {
                 console.log('login bem sucedido', dados)
                 setMensagem('Login bem sucedido')
-                localStorage.setItem('UsuarioLogado', JSON.stringify({...dados, lembrar}))
+                localStorage.setItem('UsuarioLogado', JSON.stringify({ ...dados, lembrar }))
                 navigate('/')
             } else {
                 setMensagem('email ou senha incorretos')
@@ -87,16 +89,16 @@ const Login = () => {
         }
     }
 
-    function alternanVisibilidadeSenha (){
+    function alternanVisibilidadeSenha() {
         setMostrarSenha(!mostarSenha)
     }
 
     return (
         <div style={EstilosLogin.container}>
             <header style={EstilosLogin.cabecalho}>
-                <img 
-                src={logo}
-                style={EstilosLogin.iconeLogo}/>
+                <img
+                    src={logo}
+                    style={EstilosLogin.iconeLogo} />
                 <div>
                     <h1 style={EstilosLogin.nomeApp}>Calendario</h1>
                     <p style={EstilosLogin.subtituloApp}>Calendario Academico</p>
@@ -108,43 +110,43 @@ const Login = () => {
                     <h2 style={EstilosLogin.titulo}>Acesse sua conta</h2>
                     <div style={EstilosLogin.grupoInput}>
                         <MdEmail style={EstilosLogin.iconeInput} />
-                        <input 
-                        type='email' 
-                        style={EstilosLogin.input}
-                        placeholder='Digite seu email'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        <input
+                            type='email'
+                            style={EstilosLogin.input}
+                            placeholder='Digite seu email'
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
                     <div style={EstilosLogin.grupoInput}>
                         <MdLock style={EstilosLogin.iconeInput} />
-                        <input 
-                        type={mostarSenha == true ? 'text' : 'password'}
-                        style={EstilosLogin.input}
-                        placeholder='Digite seu senha'
-                        value={senha}
-                        onChange={(e) => setSenha(e.target.value)}
+                        <input
+                            type={mostarSenha == true ? 'text' : 'password'}
+                            style={EstilosLogin.input}
+                            placeholder='Digite seu senha'
+                            value={senha}
+                            onChange={(e) => setSenha(e.target.value)}
                         />
                         <button
-                        type='button'
-                        onClick={alternanVisibilidadeSenha}
-                        style={EstilosLogin.alternarVisibilidade}>
-                            {mostarSenha == true ? <MdVisibility/> : <MdVisibilityOff/>}
+                            type='button'
+                            onClick={alternanVisibilidadeSenha}
+                            style={EstilosLogin.alternarVisibilidade}>
+                            {mostarSenha == true ? <MdVisibility /> : <MdVisibilityOff />}
                         </button>
                     </div>
                     <div style={EstilosLogin.entreOpcoes}>
                         <div style={EstilosLogin.containerCheckbox}>
-                            <input type="checkbox" style={EstilosLogin.checkbox} 
-                            checked={lembrar} onChange={(e) => setLembrar(e.target.checked)}
+                            <input type="checkbox" style={EstilosLogin.checkbox}
+                                checked={lembrar} onChange={(e) => setLembrar(e.target.checked)}
                             />
                             <label>Lembrar me</label>
                         </div>
                         <a href="#" style={EstilosLogin.esqueceuSenha}>Esqueceu a senha?</a>
                     </div>
-                    <button 
-                    type='submit' 
-                    style={EstilosLogin.botaoEntrar} 
-                    onClick={botaoEntrar}>
+                    <button
+                        type='submit'
+                        style={EstilosLogin.botaoEntrar}
+                        onClick={botaoEntrar}>
                         Entrar
                     </button>
                     <p style={EstilosLogin.mensagemFeedback}>{mensagem}</p>

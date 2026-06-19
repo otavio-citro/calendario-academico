@@ -26,15 +26,15 @@ router.get('/disciplinas', autenticarToken, async (req, res) => {
         return res.status(200).json(disciplinas.rows);//200 ok
     } catch (error) {
         console.error('Erro ao listar disciplinas', error.message);
-        return res.status(500).json({ error: 'Erro ao listar disciplinas'+ error.message })
+        return res.status(500).json({ error: 'Erro ao listar disciplinas' + error.message })
     }
 })
 
 //Endpoint seguro contra sql Injection
 router.post('/disciplinas', autenticarToken, async (req, res) => {
     const { nome, carga_horaria, data_inicio, data_fim, id_turma, id_instrutor } = req.body;
-    
-    if (!nome || !carga_horaria || !data_inicio || !data_fim || !id_turma || !id_instrutor ) {
+
+    if (!nome || !carga_horaria || !data_inicio || !data_fim || !id_turma || !id_instrutor) {
         return res.status(400).json({
             error: 'Todos os campos obrigatórios devem ser preenchidos'
         });
@@ -42,17 +42,17 @@ router.post('/disciplinas', autenticarToken, async (req, res) => {
 
     const dataCerta = /^\d{4}-\d{2}-\d{2}$/;
 
-if (!dataCerta.test(data_inicio)) {
-    return res.status(400).json({
-        error: 'Data de início inválida. Exemplo: 2026-06-13'
-    });
-}
+    if (!dataCerta.test(data_inicio)) {
+        return res.status(400).json({
+            error: 'Data de início inválida. Exemplo: 2026-06-13'
+        });
+    }
 
-if (!dataCerta.test(data_fim)) {
-    return res.status(400).json({
-        error: 'Data de fim inválida. Exemplo: 2026-06-13'
-    });
-}
+    if (!dataCerta.test(data_fim)) {
+        return res.status(400).json({
+            error: 'Data de fim inválida. Exemplo: 2026-06-13'
+        });
+    }
 
     try {
         const comando = `INSERT INTO disciplinas
@@ -69,18 +69,23 @@ if (!dataCerta.test(data_fim)) {
         return res.status(201).json("disciplina cadastrada.");
     } catch (error) {
         let mensagem = 'Erro desconhecido'
-        
+
+        if (error.code === '22P02') {
+            return res.status(400).json({
+                error: 'Valor inválido para um campo numérico'
+            })
+        }
         if (error.message.includes('disciplinas_id_turma_fkey')) {
             mensagem = 'Turma não existe'
-            return res.status(404).json({ error: mensagem})
+            return res.status(404).json({ error: mensagem })
         }
         if (error.message.includes('disciplinas_id_instrutor_fkey')) {
             mensagem = 'instrutor não existe'
-            return res.status(404).json({ error: mensagem})
+            return res.status(404).json({ error: mensagem })
         }
         console.error('Erro ao cadastrar disciplinas', error.message);
         // return res.status(500).json({ error: 'Erro ao cadastrar disciplinas'+ error.message })
-        return res.status(500).json({ error: error.message})
+        return res.status(500).json({ error: error.message })
     }
 })
 
@@ -93,6 +98,11 @@ router.put('/disciplinas/:id_disciplina', autenticarToken, async (req, res) => {
     // Dados do disciplina recebido via Corpo da página
     const { nome, carga_horaria, data_inicio, data_fim, id_turma, id_instrutor } = req.body;
     try {
+        const verificardisciplina = await BD.query(`SELECT * FROM disciplinas
+            WHERE id_disciplina = $1`, [id_disciplina])
+        if (verificardisciplina.rows.length === 0) {
+            return res.status(404).json({ message: 'Disciplina não encontrada' })
+        }
         const comando = `UPDATE disciplinas SET nome = $1, carga_horaria = $2, data_inicio = $3, data_fim = $4, id_turma = $5, id_instrutor = $6 WHERE
         id_disciplina = $7`;
         const valores = [nome, carga_horaria, data_inicio, data_fim, id_turma, id_instrutor, id_disciplina];
@@ -101,13 +111,18 @@ router.put('/disciplinas/:id_disciplina', autenticarToken, async (req, res) => {
         return res.status(200).json('disciplina foi atualizada!');
     } catch (error) {
         console.error('Erro ao atualizar disciplinas', error.message);
-        return res.status(500).json({ error: 'Erro ao atualizar disciplinas'+ error.message })
+        return res.status(500).json({ error: 'Erro ao atualizar disciplinas' + error.message })
     }
 })
 
 router.delete('/disciplinas/:id_disciplina', autenticarToken, async (req, res) => {
     const { id_disciplina } = req.params;
     try {
+        const verificardisciplina = await BD.query(`SELECT * FROM disciplinas
+            WHERE id_disciplina = $1`, [id_disciplina])
+        if (verificardisciplina.rows.length === 0) {
+            return res.status(404).json({ message: 'Disciplina não encontrada' })
+        }
         //Executa o comando de delete
         // const comando = `DELETE FROM disciplinaS WHERE id_disciplina = $1`
         const comando = `DELETE from disciplinas WHERE id_disciplina = $1 `

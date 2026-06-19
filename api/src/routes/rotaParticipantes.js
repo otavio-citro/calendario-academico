@@ -40,7 +40,7 @@ router.post('/participantes', autenticarToken, async (req, res) => {
         await BD.query(comando, valores)
         console.log(comando, valores);
 
-        return res.status(201).json("participante cadastrada.");
+        return res.status(201).json("participante vinculado.");
     } catch (error) {
         let mensagem = 'Erro desconhecido'
         
@@ -68,6 +68,11 @@ router.put('/participantes/:id_participante', autenticarToken, async (req, res) 
     // Dados do participante recebido via Corpo da página
     const { id_usuario, id_evento } = req.body;
     try {
+        const verificarparticipante = await BD.query(`SELECT * FROM participantes_do_evento
+            WHERE id_participante = $1`, [id_participante])
+        if (verificarparticipante.rows.length === 0) {
+            return res.status(404).json({ message: 'participante não encontrado' })
+        }
         const comando = `UPDATE participantes_do_evento SET id_usuario = $1, id_evento = $2 WHERE
         id_participante = $3`;
         const valores = [id_usuario, id_evento, id_participante];
@@ -83,6 +88,11 @@ router.put('/participantes/:id_participante', autenticarToken, async (req, res) 
 router.delete('/participantes/:id_participante', autenticarToken, async (req, res) => {
     const { id_participante } = req.params;
     try {
+        const verificarparticipante = await BD.query(`SELECT * FROM participantes_do_evento
+            WHERE id_participante = $1`, [id_participante])
+        if (verificarparticipante.rows.length === 0) {
+            return res.status(404).json({ message: 'participante não encontrado' })
+        }
         //Executa o comando de delete
         // const comando = `DELETE FROM participanteS WHERE id_participante = $1`
         const comando = `DELETE from participantes_do_evento WHERE id_participante = $1 `

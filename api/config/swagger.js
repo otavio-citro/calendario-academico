@@ -9,16 +9,16 @@ const documentacao = {
 
   servers: [
     {
+      url: "https://api-one-gamma-28.vercel.app",
+      description: "Servidor vercel"
+    },
+    {
       url: "http://localhost:3002",
       description: "Servidor Local"
     },
     {
       url: "http://10.130.42.88:3002",
       description: "Servidor ip"
-    },
-    {
-      url: "https://api-one-gamma-28.vercel.app",
-      description: "Servidor vercel"
     }
   ],
 
@@ -682,11 +682,11 @@ const documentacao = {
           },
 
           401: {
-            description: "Não autorizado",
+            description: "Token inválido",
             content: {
               "application/json": {
                 example: {
-                  error: "token não fornecido"
+                  message: "Token não fornecido"
                 }
               }
             }
@@ -729,11 +729,34 @@ const documentacao = {
 
         responses: {
           201: {
-            description: "Turma cadastrada com sucesso"
+            description: "Turma cadastrada com sucesso",
+            content: {
+              "application/json": {
+                example: "Turma cadastrada com sucesso"
+              }
+            }
           },
 
           400: {
-            description: "Dados inválidos"
+            description: "Campo obrigatório vazio",
+            content: {
+              "application/json": {
+                example: {
+                  message: "todos os campos devem ser preenchidos"
+                }
+              }
+            }
+          },
+
+          401: {
+            description: "Token inválido",
+            content: {
+              "application/json": {
+                example: {
+                  message: "Token não fornecido"
+                }
+              }
+            }
           },
 
           500: {
@@ -787,7 +810,12 @@ const documentacao = {
 
         responses: {
           200: {
-            description: "Turma atualizada com sucesso"
+            description: "Turma atualizada com sucesso",
+            content: {
+              "application/json": {
+                example: "Turma atualizada com sucesso"
+              }
+            }
           },
 
           401: {
@@ -802,7 +830,14 @@ const documentacao = {
           },
 
           404: {
-            description: "Turma não encontrada"
+            description: "Turma não encontrada",
+            content: {
+              "application/json": {
+                example: {
+                  message: "Turma não encontrada"
+                }
+              }
+            }
           },
 
           500: {
@@ -839,7 +874,12 @@ const documentacao = {
 
         responses: {
           200: {
-            description: "Turma removida com sucesso"
+            description: "Turma removida com sucesso",
+            content: {
+              "application/json": {
+                example: "Turma removida com sucesso"
+              }
+            }
           },
 
           401: {
@@ -854,7 +894,14 @@ const documentacao = {
           },
 
           404: {
-            description: "Turma não encontrada"
+            description: "Turma não encontrada",
+            content: {
+              "application/json": {
+                example: {
+                  message: "Turma não encontrada"
+                }
+              }
+            }
           },
 
           500: {
@@ -950,11 +997,45 @@ const documentacao = {
 
         responses: {
           201: {
-            description: "Usuário vinculado à turma"
+            description: "Usuário da turma cadastrado",
+            content: {
+              "application/json": {
+                example: "usuarios da turma cadastrado"
+              }
+            }
           },
 
           400: {
-            description: "Dados inválidos"
+            description: "Campo obrigatório vazio",
+            content: {
+              "application/json": {
+                example: {
+                  message: "todos os campos devem ser preenchidos"
+                }
+              }
+            }
+          },
+
+          404: {
+            description: "usuario da turma não encontrado",
+            content: {
+              "application/json": {
+                examples: {
+                  UsuarioNãoExistente: {
+                    summary: "Usuario não existe",
+                    value: {
+                      error: "Usuario não existe"
+                    }
+                  },
+                  TurmaNãoExistente: {
+                    summary: "Turma não existe",
+                    value: {
+                      error: "Turma não existe"
+                    }
+                  },
+                }
+              }
+            }
           },
 
           500: {
@@ -1007,7 +1088,12 @@ const documentacao = {
 
         responses: {
           200: {
-            description: "Vínculo atualizado com sucesso"
+            description: "Vínculo atualizado com sucesso",
+            content: {
+              "application/json":{
+                example: "usuario da turma foi atualizado!"
+              }
+            }
           },
 
           401: {
@@ -1022,7 +1108,14 @@ const documentacao = {
           },
 
           404: {
-            description: "Vínculo não encontrado"
+            description: "Vínculo não encontrado",
+            content: {
+              "application/json":{
+                example:{
+                  message: "usuário da turma não encontrado"
+                }
+              }
+            }
           },
 
           500: {
@@ -1059,7 +1152,12 @@ const documentacao = {
 
         responses: {
           200: {
-            description: "Vínculo removido com sucesso"
+            description: "Vínculo removido com sucesso",
+            content: {
+              "application/json": {
+                example: "usuario da turma removido com sucesso"
+              }
+            }
           },
 
           401: {
@@ -1074,7 +1172,14 @@ const documentacao = {
           },
 
           404: {
-            description: "Vínculo não encontrado"
+            description: "Vínculo não encontrado",
+            content: {
+              "application/json":{
+                example:{
+                  message: "usuário da turma não encontrado"
+                }
+              }
+            }
           },
 
           500: {
@@ -1177,11 +1282,67 @@ const documentacao = {
 
         responses: {
           201: {
-            description: "Disciplina cadastrada com sucesso"
+            description: "Disciplina cadastrada com sucesso",
+            content: {
+              "application/json": {
+                example: "Disciplina cadastrada"
+              }
+            }
           },
 
-          400: {
-            description: "Dados inválidos"
+         400: {
+            description: "Dados inválidos",
+            content: {
+              "application/json": {
+                examples: {
+                  camposObrigatorios: {
+                    summary: "Campos obrigatórios",
+                    value: {
+                      error: "Todos os campos obrigatórios devem ser preenchidos"
+                    }
+                  },
+                  dataInicioInvalida: {
+                    summary: "Data de início inválida",
+                    value: {
+                      error: "Data de início inválida"
+                    }
+                  },
+                  dataFimInvalida: {
+                    summary: "Data de fim inválida",
+                    value: {
+                      error: "Data de fim inválida"
+                    }
+                  },
+                  ValorNumerioInvalido: {
+                    summary: "Valor inválido para um campo numérico",
+                    value: {
+                      error: "Valor inválido para um campo numérico"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          404: {
+            description: "Turma não encontrada",
+            content: {
+              "application/json": {
+                examples: {
+                  TurmaNaoExiste: {
+                    summary: "Turma não existe",
+                    value: {
+                      error: "Turma não existe"
+                    }
+                  },
+                  InstrutorNaoExiste: {
+                    summary: "Instrutor não existe",
+                    value: {
+                      error: "Instrutor não existe"
+                    }
+                  }
+                }
+              }
+            }
           },
 
           500: {
@@ -1237,7 +1398,12 @@ const documentacao = {
 
         responses: {
           200: {
-            description: "Disciplina atualizada com sucesso"
+            description: "Disciplina atualizada com sucesso",
+            content: {
+              "application/json": {
+                example: "Disciplina atualizada"
+              }
+            }
           },
 
           401: {
@@ -1252,7 +1418,14 @@ const documentacao = {
           },
 
           404: {
-            description: "Disciplina não encontrada"
+            description: "Disciplina não encontrada",
+            content: {
+              "application/json":{
+                example:{
+                  message: "Disciplina não encontrada"
+                }
+              }
+            }
           },
 
           500: {
@@ -1288,7 +1461,12 @@ const documentacao = {
 
         responses: {
           200: {
-            description: "Disciplina removida com sucesso"
+            description: "Disciplina removida com sucesso",
+            content: {
+              "application/json": {
+                example: "Disciplina removida"
+              }
+            }
           },
 
           401: {
@@ -1303,7 +1481,14 @@ const documentacao = {
           },
 
           404: {
-            description: "Disciplina não encontrada"
+            description: "Disciplina não encontrada",
+            content: {
+              "application/json":{
+                example: {
+                  message: "Disciplina não encontrada"
+                }
+              }
+            }
           },
 
           500: {
@@ -1396,11 +1581,45 @@ const documentacao = {
 
         responses: {
           201: {
-            description: "Calendário cadastrado com sucesso"
+            description: "Calendário cadastrado com sucesso",
+            content: {
+              "application/json": {
+                example: "Calendário cadastrado"
+              }
+            }
           },
 
           400: {
-            description: "Dados inválidos"
+            description: "Campo obrigatório vazio",
+            content: {
+              "application/json": {
+                example: {
+                  message: "todos os campos devem ser preenchidos"
+                }
+              }
+            }
+          },
+
+          404: {
+            description: "Calendario não encontrado",
+            content: {
+              "application/json": {
+                examples: {
+                  UsuarioNãoExistente: {
+                    summary: "Usuario não existe",
+                    value: {
+                      error: "Usuario não existe"
+                    }
+                  },
+                  TurmaNãoExistente: {
+                    summary: "Turma não existe",
+                    value: {
+                      error: "Turma não existe"
+                    }
+                  },
+                }
+              }
+            }
           },
 
           500: {
@@ -1453,7 +1672,12 @@ const documentacao = {
 
         responses: {
           200: {
-            description: "Calendário atualizado com sucesso"
+            description: "Calendário atualizado com sucesso",
+            content: {
+              "application/json": {
+                example: "Calendário atualizado"
+              }
+            }
           },
 
           401: {
@@ -1468,7 +1692,14 @@ const documentacao = {
           },
 
           404: {
-            description: "Calendário não encontrado"
+            description: "Calendario não encontrado",
+            content: {
+              "application/json": {
+                example: {
+                  message: "Calendario não encontrado"
+                }
+              }
+            }
           },
 
           500: {
@@ -1504,7 +1735,12 @@ const documentacao = {
 
         responses: {
           200: {
-            description: "Calendário removido com sucesso"
+            description: "Calendário removido com sucesso",
+            content: {
+              "application/json": {
+                example: "Calendário removido"
+              }
+            }
           },
 
           401: {
@@ -1519,7 +1755,14 @@ const documentacao = {
           },
 
           404: {
-            description: "Calendário não encontrado"
+            description: "Calendario não encontrado",
+            content: {
+              "application/json": {
+                example: {
+                  message: "Calendario não encontrado"
+                }
+              }
+            }
           },
 
           500: {
@@ -1771,7 +2014,12 @@ const documentacao = {
 
         responses: {
           200: {
-            description: "Evento atualizado com sucesso"
+            description: "Evento atualizado com sucesso",
+            content: {
+              "application/json":{
+                example: "evento atualizado"
+              }
+            }
           },
 
           401: {
@@ -1786,7 +2034,14 @@ const documentacao = {
           },
 
           404: {
-            description: "Evento não encontrado"
+            description: "Evento não encontrado",
+            content: {
+              "application/json": {
+                example: {
+                  message: "Evento não encontrado"
+                }
+              }
+            }
           },
 
           500: {
@@ -1822,7 +2077,12 @@ const documentacao = {
 
         responses: {
           200: {
-            description: "Evento removido com sucesso"
+            description: "Evento removido com sucesso",
+            content: {
+              "apllication/json":{
+                example: "Evento removido"
+              }
+            }
           },
 
           401: {
@@ -1837,7 +2097,14 @@ const documentacao = {
           },
 
           404: {
-            description: "Evento não encontrado"
+            description: "Evento não encontrado",
+            content: {
+              "application/json": {
+                example: {
+                  message: "Evento não encontrado"
+                }
+              }
+            }
           },
 
           500: {
@@ -1927,11 +2194,45 @@ const documentacao = {
 
         responses: {
           201: {
-            description: "Participante vinculado com sucesso"
+            description: "Participante vinculado com sucesso",
+            content: {
+              "application/json": {
+                example: "participante vinculado"
+              }
+            }
           },
 
           400: {
-            description: "Dados inválidos"
+            description: "Campo obrigatório vazio",
+            content: {
+              "application/json": {
+                example: {
+                  message: "todos os campos devem ser preenchidos"
+                }
+              }
+            }
+          },
+
+          404: {
+            description: "Participante não encontrado",
+            content: {
+              "application/json": {
+                examples: {
+                  UsuarioNaoExiste: {
+                    summary: "Usuario não existe",
+                    value: {
+                      error: "Usuario não existe"
+                    }
+                  },
+                  EventoNaoExiste: {
+                    summary: "Evento não existe",
+                    value: {
+                      error: "Evento não existe"
+                    }
+                  }
+                }
+              }
+            }
           },
 
           500: {
@@ -1983,7 +2284,12 @@ const documentacao = {
 
         responses: {
           200: {
-            description: "Participante atualizado com sucesso"
+            description: "Participante atualizado com sucesso",
+            content: {
+              "application/json": {
+                example:  "Participante atualizado"
+              }
+            }
           },
 
           401: {
@@ -1998,7 +2304,14 @@ const documentacao = {
           },
 
           404: {
-            description: "Participante não encontrado"
+            description: "Participante não encontrado",
+            content:{
+              "application/json": {
+                example: {
+                  message: "Participante não encontrado"
+                }
+              }
+            }
           },
 
           500: {
@@ -2034,7 +2347,12 @@ const documentacao = {
 
         responses: {
           200: {
-            description: "Participante removido com sucesso"
+            description: "Participante removido com sucesso",
+            content: {
+              "application/json": {
+                example : "Participante removido"
+              }
+            }
           },
 
           401: {
@@ -2049,7 +2367,14 @@ const documentacao = {
           },
 
           404: {
-            description: "Participante não encontrado"
+            description: "Participante não encontrado",
+            content:{
+              "application/json": {
+                example: {
+                  message: "Participante não encontrado"
+                }
+              }
+            }
           },
 
           500: {

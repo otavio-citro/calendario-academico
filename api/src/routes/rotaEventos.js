@@ -96,11 +96,11 @@ router.put('/eventos/:id_evento', autenticarToken, async (req, res) => {
     const { titulo, tipo, inicio, fim, id_calendario, id_disciplina, criado_por, bloqueado, nome_recorrencia, frequencia_recorrencia } = req.body;
     try {
         //Verificar se o turma existe
-        // const verificarTurma = await BD.query(`SELECT * FROM turmas
-        //     WHERE id_turma = $1`, [id_turma])
-        // if (verificarTurma.rows.length === 0) {
-        //     return res.status(404).json({ message: 'turma não encontrado' })
-        // }
+       const verificarevento = await BD.query(`SELECT * FROM eventos
+            WHERE id_evento = $1`, [id_evento])
+        if (verificarevento.rows.length === 0) {
+            return res.status(404).json({ message: 'evento não encontrado' })
+        }
 
         // Atualiza todos os campos da tabela(PUT Substituição completa)
         const comando = `UPDATE eventos SET titulo = $1, tipo = $2, inicio = $3, fim = $4, id_calendario = $5, id_disciplina = $6, criado_por = $7, bloqueado = $8, nome_recorrencia = $9, frequencia_recorrencia = $10 WHERE
@@ -118,6 +118,11 @@ router.put('/eventos/:id_evento', autenticarToken, async (req, res) => {
 router.delete('/eventos/:id_evento', autenticarToken, async (req, res) => {
     const { id_evento } = req.params;
     try {
+        const verificarevento = await BD.query(`SELECT * FROM eventos
+            WHERE id_evento = $1`, [id_evento])
+        if (verificarevento.rows.length === 0) {
+            return res.status(404).json({ message: 'evento não encontrado' })
+        }
         //Executa o comando de delete
         // const comando = `DELETE FROM turmaS WHERE id_turma = $1`
         const comando = `DELETE from eventos WHERE id_evento = $1 `

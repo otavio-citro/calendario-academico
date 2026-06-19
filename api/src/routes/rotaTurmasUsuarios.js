@@ -76,20 +76,18 @@ router.put('/turmasUsuarios/:id_turma_usuario', autenticarToken, async (req, res
     // Dados do turma recebido via Corpo da página
     const { id_usuario, id_turma } = req.body;
     try {
-        //Verificar se o turma existe
-        // const verificarTurma = await BD.query(`SELECT * FROM turmas
-        //     WHERE id_turma = $1`, [id_turma])
-        // if (verificarTurma.rows.length === 0) {
-        //     return res.status(404).json({ message: 'turma não encontrado' })
-        // }
-
+        const verificarturma_usuario = await BD.query(`SELECT * FROM turmas_usuarios
+            WHERE id_turma_usuario = $1`, [id_turma_usuario])
+        if (verificarturma_usuario.rows.length === 0) {
+            return res.status(404).json({ message: 'usuário da turma não encontrado' })
+        }
         // Atualiza todos os campos da tabela(PUT Substituição completa)
         const comando = `UPDATE turmas_usuarios SET id_usuario = $1, id_turma = $2 WHERE
         id_turma_usuario = $3`;
         const valores = [id_usuario, id_turma, id_turma_usuario];
         await BD.query(comando, valores);
 
-        return res.status(200).json('usuario da turma foi atualizada!');
+        return res.status(200).json('usuario da turma foi atualizado!');
     } catch (error) {
         console.error('Erro ao atualizar usuario da turma', error.message);
         return res.status(500).json({ error: 'Erro ao atualizar usuario da turma'+ error.message })
@@ -99,6 +97,11 @@ router.put('/turmasUsuarios/:id_turma_usuario', autenticarToken, async (req, res
 router.delete('/turmasUsuarios/:id_turma_usuario', autenticarToken, async (req, res) => {
     const { id_turma_usuario } = req.params;
     try {
+        const verificarturma_usuario = await BD.query(`SELECT * FROM turmas_usuarios
+            WHERE id_turma_usuario = $1`, [id_turma_usuario])
+        if (verificarturma_usuario.rows.length === 0) {
+            return res.status(404).json({ message: 'usuário da turma não encontrado' })
+        }
         //Executa o comando de delete
         // const comando = `DELETE FROM turmaS WHERE id_turma = $1`
         const comando = `DELETE from turmas_usuarios WHERE id_turma_usuario = $1 `

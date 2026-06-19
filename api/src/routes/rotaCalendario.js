@@ -68,6 +68,11 @@ router.put('/calendarios/:id_calendario', autenticarToken, async (req, res) => {
     // Dados do calendario recebido via Corpo da página
     const { nome, id_usuario, id_turma } = req.body;
     try {
+        const verificarcalendario = await BD.query(`SELECT * FROM calendarios
+            WHERE id_calendario = $1`, [id_calendario])
+        if (verificarcalendario.rows.length === 0) {
+            return res.status(404).json({ message: 'calendario não encontrado' })
+        }
         const comando = `UPDATE calendarios SET nome = $1, id_usuario = $2, id_turma = $3 WHERE
         id_calendario = $4`;
         const valores = [nome, id_usuario, id_turma, id_calendario];
@@ -83,6 +88,11 @@ router.put('/calendarios/:id_calendario', autenticarToken, async (req, res) => {
 router.delete('/calendarios/:id_calendario', autenticarToken, async (req, res) => {
     const { id_calendario } = req.params;
     try {
+        const verificarcalendario = await BD.query(`SELECT * FROM calendarios
+            WHERE id_calendario = $1`, [id_calendario])
+        if (verificarcalendario.rows.length === 0) {
+            return res.status(404).json({ message: 'calendario não encontrado' })
+        }
         //Executa o comando de delete
         // const comando = `DELETE FROM calendarioS WHERE id_calendario = $1`
         const comando = `DELETE from calendarios WHERE id_calendario = $1 `
